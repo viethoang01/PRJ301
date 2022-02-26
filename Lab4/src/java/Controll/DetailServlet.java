@@ -33,20 +33,21 @@ public class DetailServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        boolean check = false;
+
         Cookie[] cookie = request.getCookies();
+        if (cookie != null) {
             for (Cookie cookie1 : cookie) {
-                if(cookie1.getName().equals("username")){
-                    request.setAttribute("nameDetail",cookie1.getValue());
-                    check = true;
+                if (cookie1.getName().equals("detail")) {
+                    request.setAttribute("nameDetail", cookie1.getValue());
+
                 }
-                
+
             }
-            if(!check){
-                request.getRequestDispatcher("Login.jsp").forward(request, response);
-            }else{
-                request.getRequestDispatcher("Detail.jsp").forward(request, response);
-            }
+            request.getRequestDispatcher("Detail.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

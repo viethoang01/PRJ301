@@ -78,19 +78,20 @@ public class LoginSession extends HttpServlet {
             
                 Cookie c_user = new Cookie("username", username);
                 Cookie c_pass = new Cookie("password", password);
-                
+                Cookie c_detail = new Cookie("detail", account.getDisplayname());
                 response.addCookie(c_pass);
                 response.addCookie(c_user);
-            if(remember == null){
-                c_user.setMaxAge(0);
-                c_pass.setMaxAge(0);
-            }else{
-                c_user.setMaxAge(60*60*24);
-                c_pass.setMaxAge(60*60*24);
+                response.addCookie(c_detail);
+            if(remember != null){
+                
+                c_user.setMaxAge(60);
+                c_pass.setMaxAge(60);
+                c_detail.setMaxAge(60);
+
             }
             HttpSession session = request.getSession();
             session.setAttribute("user", account);           
-            response.sendRedirect("detail");
+            response.sendRedirect("Detail.jsp");
             
             
         } else //login fail
