@@ -75,14 +75,14 @@ public class LoginSession extends HttpServlet {
         if (account != null) // login successfully!
         {
             String remember = request.getParameter("remember");
-            
+            if(remember != null){
                 Cookie c_user = new Cookie("username", username);
                 Cookie c_pass = new Cookie("password", password);
                 Cookie c_detail = new Cookie("detail", account.getDisplayname());
                 response.addCookie(c_pass);
                 response.addCookie(c_user);
                 response.addCookie(c_detail);
-            if(remember != null){
+            
                 
                 c_user.setMaxAge(60);
                 c_pass.setMaxAge(60);

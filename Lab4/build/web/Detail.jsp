@@ -14,24 +14,15 @@
     </head>
     <body>
             <%
-                Cookie[] cookie = request.getCookies();
-                boolean check = false;
-        if (cookie != null) {
-            for (Cookie cookie1 : cookie) {
-                
-                if (cookie1.getName().equals("detail")) {
-                    check = true;
-                    %>
-                    <h4>Hello: <%=cookie1.getValue()%></h4>
-            <%
-
-                }
-
+            Users u = (Users) session.getAttribute("user");
+            if(u != null){%>
+                <h4>Hello: <%=u.getDisplayname()%></h4>
+               
+            <%}else{
+                response.sendRedirect("loginServlet");
             }
             
-        } if(!check) {
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
-        }
+        
             %>
            
     </body>
