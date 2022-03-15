@@ -56,15 +56,16 @@ public class PersonDAO extends BaseDAO<Person> {
         return total;
     }
 
-    public ArrayList<Person> pagePerson(int pageIndex) {
+    public ArrayList<Person> pagePerson(int pageIndex ,int size) {
         ArrayList<Person> lp = new ArrayList<>();
         try {
-            sql = "SELECT top 4 * \n"
-                    + "FROM DummyTBL\n"
-                    + "where id > ?\n"
-                    + "ORDER BY id";
+            sql = "select d.id,d.name from DummyTBL d inner join\n" +
+"(select ROW_NUMBER() over(order by id asc)as rownumber ,id from DummyTBL) as rs1 on rs1.id = d.id where rownumber >= ((?-1) * ?) + 1 AND rownumber <=  ?* ?";
             ps = connection.prepareStatement(sql);
-            ps.setInt(1, (pageIndex-1)*4);
+            ps.setInt(1, pageIndex);
+            ps.setInt(2, size);
+            ps.setInt(3, pageIndex);
+            ps.setInt(4, size);
             rs = ps.executeQuery();
             while(rs.next()){
                 Person p = new Person();
@@ -91,9 +92,9 @@ public class PersonDAO extends BaseDAO<Person> {
 
     public static void main(String[] args) throws SQLException {
         PersonDAO pd = new PersonDAO();
-        ArrayList<Person> lp = pd.pagePerson(13);
-        for (Person p : lp) {
-            System.out.println(p);
-        }
+//        ArrayList<Person> lp = pd.pagePerson(13);
+//        for (Person p : lp) {
+//            System.out.println(p);
+//        }
     }
 }

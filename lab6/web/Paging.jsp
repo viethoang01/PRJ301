@@ -4,6 +4,9 @@
     Author     : admin
 --%>
 
+<%@page import="model.Person"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.PersonDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,6 +16,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <%%>
         <table border="1" style="width: 500px;text-align: center">
             <thead>
                 <tr>
@@ -31,9 +35,13 @@
         </table>
 
 
-
+        
         <c:forEach begin="1"  end="${totalPage}"varStatus="i">
-            <a href="person?index=${i.index}">${i.index}</a>
+            <%int pagenumber = 0;%>
+            <%%>
+           <a href="person?index=${i.index}">${i.index}</a>
+            
+            
         </c:forEach>
     </body>
 </html>

@@ -7,19 +7,17 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Person;
-import model.PersonDAO;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author admin
  */
-public class PersonController extends HttpServlet {
+public class Servlet2 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,20 +31,20 @@ public class PersonController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        PersonDAO pd = new PersonDAO();
-        int totalPage = pd.totalPage();
-        String index = request.getParameter("index");
-        if (index == null) {
-            index = "1";
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            HttpSession session  = request.getSession();
+            String u =(String) session.getAttribute("username");
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Servlet2</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet2 "+u+"</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-       
-        ArrayList<Person> lp = pd.pagePerson(Integer.parseInt(index),4);
-        request.setAttribute("lp", lp);
-        
-        request.setAttribute("totalPage", totalPage);
-        response.getWriter().print(totalPage);
-//        request.getRequestDispatcher("Paging.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
